@@ -57,6 +57,6 @@ mkdir dst, ->
     fs.writeFile path.join(dst, pem = name hash crt.subject), format(crt), (err)->
       throw err if err
       fs.unlink link = path.join(dst, name hach crt.subject), (err)->
-        fs.symlink pem, link, 'file', (err)->
+        fs.copyFile path.join(dst, pem), link, (err)->
           throw err if err
           do save
