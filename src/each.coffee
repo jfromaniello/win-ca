@@ -3,8 +3,16 @@ Enumerate system root CAs synchronously
 ###
 crypt = require './crypt32'
 
-module.exports = (cb)->
-  store = crypt.CertOpenSystemStoreA null, 'ROOT'
+module.exports = (storeName, cb)->
+  if typeof storeName == 'function'
+    cb = storeName
+    storeName = 'ROOT'
+
+  if Array.isArray(storeName)
+    storeName.forEach (sn) -> module.exports sn, cb
+    return;
+
+  store = crypt.CertOpenSystemStoreA null, storeName
   try
     ctx = null
     while 1
